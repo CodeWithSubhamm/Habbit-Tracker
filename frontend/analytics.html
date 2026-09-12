@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Analytics, streaks, weekly progress breakdown, and achievements in AuraHabit.">
+  <title>Analytics & Insights — AuraHabit</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+  <div class="ambient-background">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <header class="mobile-top-bar">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <div class="brand-icon" style="width: 32px; height: 32px; font-size: 16px;">✨</div>
+      <span class="brand-name" style="font-size: 17px;">AuraHabit</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <div class="user-avatar" id="mobile-user-avatar" style="width: 32px; height: 32px; font-size: 12px;">U</div>
+      <button class="btn btn-ghost btn-sm" onclick="clearAuth()" title="Sign Out" style="font-size: 14px; padding: 4px 8px;">🚪</button>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <!-- Desktop Sidebar -->
+    <aside class="sidebar">
+      <a href="/dashboard.html" class="brand">
+        <div class="brand-icon">✨</div>
+        <span class="brand-name">AuraHabit</span>
+      </a>
+
+      <div class="nav-section-label">Menu</div>
+      <ul class="nav-list">
+        <li><a href="/dashboard.html" class="nav-link"><span class="nav-icon">📊</span><span>Dashboard</span></a></li>
+        <li><a href="/habits.html" class="nav-link"><span class="nav-icon">✨</span><span>Habits</span></a></li>
+        <li><a href="/calendar.html" class="nav-link"><span class="nav-icon">📅</span><span>Calendar</span></a></li>
+        <li><a href="/analytics.html" class="nav-link active"><span class="nav-icon">📈</span><span>Analytics</span></a></li>
+        <li><a href="/goals.html" class="nav-link"><span class="nav-icon">🎯</span><span>Goals</span></a></li>
+        <li><a href="/history.html" class="nav-link"><span class="nav-icon">📜</span><span>History</span></a></li>
+        <li><a href="/settings.html" class="nav-link"><span class="nav-icon">⚙️</span><span>Settings</span></a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <a href="/settings.html" class="user-profile-summary">
+          <div class="user-avatar" id="user-initials">U</div>
+          <div class="user-meta">
+            <span class="user-name" id="sidebar-user-name">User</span>
+            <span class="user-status">Active Account</span>
+          </div>
+        </a>
+        <button class="btn btn-ghost btn-icon" onclick="clearAuth()" title="Sign Out">🚪</button>
+      </div>
+      <div style="font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 10px; padding-top: 8px; border-top: 1px dashed rgba(255,255,255,0.08);">
+        Built by <strong style="color: var(--accent-light);">Subham Sahoo</strong>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <header class="page-header">
+        <div>
+          <h1 class="greeting-title">Analytics & Insights</h1>
+          <p class="greeting-subtitle">Understand your consistency patterns, streaks, and milestone achievements.</p>
+        </div>
+      </header>
+
+      <!-- Top KPI Cards -->
+      <section class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon-wrapper stat-icon-rate">📈</div>
+          <div class="stat-info">
+            <span class="stat-label">Completion Rate</span>
+            <span class="stat-value" id="analytics-rate">0%</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon-wrapper stat-icon-completed">✓</div>
+          <div class="stat-info">
+            <span class="stat-label">Total Completions</span>
+            <span class="stat-value" id="analytics-completions">0</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon-wrapper stat-icon-streak">🔥</div>
+          <div class="stat-info">
+            <span class="stat-label">Current Streak</span>
+            <span class="stat-value" id="analytics-current-streak">0 days</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon-wrapper stat-icon-goal">⚡</div>
+          <div class="stat-info">
+            <span class="stat-label">Longest Streak</span>
+            <span class="stat-value" id="analytics-longest-streak">0 days</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Charts Row -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-bottom: 30px;">
+        <!-- Weekly Progress Chart -->
+        <section class="glass-card">
+          <div class="section-header">
+            <h3 class="section-title">
+              <span>📊</span>
+              <span>Weekly Progress</span>
+            </h3>
+            <span style="font-size: 12px; color: var(--text-muted);">Current Week</span>
+          </div>
+
+          <div id="weekly-chart-container" style="display: flex; gap: 12px; align-items: flex-end; justify-content: space-between; padding-top: 16px;">
+            <!-- Weekly bars rendered dynamically -->
+          </div>
+        </section>
+
+        <!-- Monthly Breakdown & Categories -->
+        <section class="glass-card">
+          <div class="section-header">
+            <h3 class="section-title">
+              <span>🏷️</span>
+              <span>Category Breakdown</span>
+            </h3>
+            <div style="display: flex; gap: 10px; font-size: 12px;">
+              <span style="color: var(--success);">✓ <span id="monthly-completed">0</span></span>
+              <span style="color: var(--warning);">— <span id="monthly-skipped">0</span></span>
+              <span style="color: var(--danger);">✕ <span id="monthly-missed">0</span></span>
+            </div>
+          </div>
+
+          <div id="category-distribution-container" style="padding-top: 10px;">
+            <!-- Category bars rendered dynamically -->
+          </div>
+        </section>
+      </div>
+
+      <!-- Achievements Showcase -->
+      <section class="glass-card">
+        <div class="section-header">
+          <h3 class="section-title">
+            <span>🏆</span>
+            <span>Milestones & Achievements</span>
+          </h3>
+          <span class="badge badge-streak" id="achievements-counter">0 / 0 Unlocked</span>
+        </div>
+
+        <div class="achievements-grid" id="achievements-grid">
+          <!-- Achievement cards rendered dynamically -->
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="mobile-bottom-nav">
+    <a href="/dashboard.html" class="mobile-nav-item"><span class="mobile-nav-icon">📊</span><span>Home</span></a>
+    <a href="/habits.html" class="mobile-nav-item"><span class="mobile-nav-icon">✨</span><span>Habits</span></a>
+    <a href="/calendar.html" class="mobile-nav-item"><span class="mobile-nav-icon">📅</span><span>Calendar</span></a>
+    <a href="/analytics.html" class="mobile-nav-item active"><span class="mobile-nav-icon">📈</span><span>Analytics</span></a>
+    <a href="/settings.html" class="mobile-nav-item"><span class="mobile-nav-icon">⚙️</span><span>Settings</span></a>
+  </nav>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/analytics.js"></script>
+</body>
+</html>

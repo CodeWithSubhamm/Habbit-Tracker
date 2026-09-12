@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Manage and customize your habits, routines, schedules, and habit stacking in AuraHabit.">
+  <title>Habits — AuraHabit</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+  <div class="ambient-background">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <header class="mobile-top-bar">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <div class="brand-icon" style="width: 32px; height: 32px; font-size: 16px;">✨</div>
+      <span class="brand-name" style="font-size: 17px;">AuraHabit</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <div class="user-avatar" id="mobile-user-avatar" style="width: 32px; height: 32px; font-size: 12px;">U</div>
+      <button class="btn btn-ghost btn-sm" onclick="clearAuth()" title="Sign Out" style="font-size: 14px; padding: 4px 8px;">🚪</button>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <!-- Desktop Sidebar -->
+    <aside class="sidebar">
+      <a href="/dashboard.html" class="brand">
+        <div class="brand-icon">✨</div>
+        <span class="brand-name">AuraHabit</span>
+      </a>
+
+      <div class="nav-section-label">Menu</div>
+      <ul class="nav-list">
+        <li>
+          <a href="/dashboard.html" class="nav-link">
+            <span class="nav-icon">📊</span>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="/habits.html" class="nav-link active">
+            <span class="nav-icon">✨</span>
+            <span>Habits</span>
+          </a>
+        </li>
+        <li>
+          <a href="/calendar.html" class="nav-link">
+            <span class="nav-icon">📅</span>
+            <span>Calendar</span>
+          </a>
+        </li>
+        <li>
+          <a href="/analytics.html" class="nav-link">
+            <span class="nav-icon">📈</span>
+            <span>Analytics</span>
+          </a>
+        </li>
+        <li>
+          <a href="/goals.html" class="nav-link">
+            <span class="nav-icon">🎯</span>
+            <span>Goals</span>
+          </a>
+        </li>
+        <li>
+          <a href="/history.html" class="nav-link">
+            <span class="nav-icon">📜</span>
+            <span>History</span>
+          </a>
+        </li>
+        <li>
+          <a href="/settings.html" class="nav-link">
+            <span class="nav-icon">⚙️</span>
+            <span>Settings</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <a href="/settings.html" class="user-profile-summary">
+          <div class="user-avatar" id="user-initials">U</div>
+          <div class="user-meta">
+            <span class="user-name" id="sidebar-user-name">User</span>
+            <span class="user-status">Active Account</span>
+          </div>
+        </a>
+        <button class="btn btn-ghost btn-icon" onclick="clearAuth()" title="Sign Out">🚪</button>
+      </div>
+      <div style="font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 10px; padding-top: 8px; border-top: 1px dashed rgba(255,255,255,0.08);">
+        Built by <strong style="color: var(--accent-light);">Subham Sahoo</strong>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <header class="page-header">
+        <div>
+          <h1 class="greeting-title">Habits Library</h1>
+          <p class="greeting-subtitle">Create, configure, and stack your personalized daily routines.</p>
+        </div>
+        <button class="btn btn-primary" onclick="openHabitModal()">
+          + Create New Habit
+        </button>
+      </header>
+
+      <!-- Filter Controls Bar -->
+      <section class="glass-card" style="padding: 16px 20px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+        <!-- Status Tabs -->
+        <div style="display: flex; gap: 6px; background: rgba(255,255,255,0.04); padding: 4px; border-radius: var(--radius-md); border: 1px solid var(--glass-border);">
+          <button class="btn btn-ghost btn-sm tab-btn active" data-status="active">Active</button>
+          <button class="btn btn-ghost btn-sm tab-btn" data-status="paused">Paused</button>
+          <button class="btn btn-ghost btn-sm tab-btn" data-status="archived">Archived</button>
+          <button class="btn btn-ghost btn-sm tab-btn" data-status="all">All</button>
+        </div>
+
+        <!-- Category & Search Filters -->
+        <div style="display: flex; gap: 12px; align-items: center; flex: 1; max-width: 460px;">
+          <select id="filter-category" class="form-select" style="padding: 8px 12px; font-size: 13px;">
+            <option value="all">All Categories</option>
+            <option value="Health">Health</option>
+            <option value="Fitness">Fitness</option>
+            <option value="Study">Study</option>
+            <option value="Work">Work</option>
+            <option value="Personal">Personal</option>
+            <option value="Mindfulness">Mindfulness</option>
+            <option value="Finance">Finance</option>
+            <option value="Other">Other</option>
+          </select>
+
+          <input type="text" id="search-habits" class="form-input" placeholder="🔍 Search habits..." style="padding: 8px 14px; font-size: 13px;">
+        </div>
+      </section>
+
+      <!-- Habits Grid -->
+      <section class="goals-grid" id="habits-grid-container">
+        <div class="loading-state" style="grid-column: 1 / -1;">
+          <div class="spinner"></div>
+          <span>Loading habits...</span>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="mobile-bottom-nav">
+    <a href="/dashboard.html" class="mobile-nav-item">
+      <span class="mobile-nav-icon">📊</span>
+      <span>Home</span>
+    </a>
+    <a href="/habits.html" class="mobile-nav-item active">
+      <span class="mobile-nav-icon">✨</span>
+      <span>Habits</span>
+    </a>
+    <a href="/calendar.html" class="mobile-nav-item">
+      <span class="mobile-nav-icon">📅</span>
+      <span>Calendar</span>
+    </a>
+    <a href="/analytics.html" class="mobile-nav-item">
+      <span class="mobile-nav-icon">📈</span>
+      <span>Analytics</span>
+    </a>
+    <a href="/settings.html" class="mobile-nav-item">
+      <span class="mobile-nav-icon">⚙️</span>
+      <span>Settings</span>
+    </a>
+  </nav>
+
+  <!-- Add / Edit Habit Modal -->
+  <div class="modal-backdrop" id="habit-modal">
+    <div class="modal-card" style="max-width: 560px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="habit-modal-title">Create New Habit</h3>
+        <button class="modal-close" onclick="closeHabitModal()">&times;</button>
+      </div>
+
+      <form id="form-habit">
+        <!-- Basic Information -->
+        <div class="form-group">
+          <label class="form-label" for="habit-name">Habit Name *</label>
+          <input type="text" id="habit-name" class="form-input" placeholder="e.g., Study Python, Drink Water" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="habit-description">Description (Optional)</label>
+          <input type="text" id="habit-description" class="form-input" placeholder="e.g., Complete 1 module or LeetCode problem">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div class="form-group">
+            <label class="form-label" for="habit-category">Category</label>
+            <select id="habit-category" class="form-select">
+              <option value="Health">Health</option>
+              <option value="Fitness">Fitness</option>
+              <option value="Study">Study</option>
+              <option value="Work">Work</option>
+              <option value="Personal" selected>Personal</option>
+              <option value="Mindfulness">Mindfulness</option>
+              <option value="Finance">Finance</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="habit-icon">Icon Emoji</label>
+            <input type="text" id="habit-icon" class="form-input" value="✨" maxlength="4">
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div class="form-group">
+            <label class="form-label" for="habit-color">Accent Color</label>
+            <input type="color" id="habit-color" class="form-input" value="#9b8cff" style="padding: 4px 8px; height: 42px; cursor: pointer;">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="habit-type">Habit Type</label>
+            <select id="habit-type" class="form-select">
+              <option value="boolean">Yes / No Check-in</option>
+              <option value="quantity">Quantity (Target Count)</option>
+              <option value="duration">Duration (Timer)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Quantity Specific Fields -->
+        <div id="quantity-fields" style="display: none; background: rgba(255,255,255,0.03); padding: 12px; border-radius: var(--radius-md); margin-bottom: 16px; border: 1px solid var(--glass-border);">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div>
+              <label class="form-label" for="habit-target-qty">Target Quantity</label>
+              <input type="number" id="habit-target-qty" class="form-input" value="2" step="0.5" min="0.1">
+            </div>
+            <div>
+              <label class="form-label" for="habit-unit">Unit</label>
+              <input type="text" id="habit-unit" class="form-input" value="L" placeholder="e.g., L, glasses, pages">
+            </div>
+          </div>
+        </div>
+
+        <!-- Duration Specific Fields -->
+        <div id="duration-fields" style="display: none; background: rgba(255,255,255,0.03); padding: 12px; border-radius: var(--radius-md); margin-bottom: 16px; border: 1px solid var(--glass-border);">
+          <div>
+            <label class="form-label" for="habit-target-duration">Target Duration (Minutes)</label>
+            <input type="number" id="habit-target-duration" class="form-input" value="15" min="1">
+          </div>
+        </div>
+
+        <!-- Schedule Configuration -->
+        <div class="form-group">
+          <label class="form-label" for="habit-schedule-type">Repeat Schedule</label>
+          <select id="habit-schedule-type" class="form-select">
+            <option value="daily">Every Day</option>
+            <option value="weekdays">Selected Days of Week</option>
+          </select>
+        </div>
+
+        <div id="weekday-selector" style="display: none; gap: 6px; margin-bottom: 16px; justify-content: space-between;">
+          <label class="badge" style="cursor: pointer;"><input type="checkbox" class="weekday-checkbox" value="1" checked> Mon</label>
+          <label class="badge" style="cursor: pointer;"><input type="checkbox" class="weekday-checkbox" value="2" checked> Tue</label>
+          <label class="badge" style="cursor: pointer;"><input type="checkbox" class="weekday-checkbox" value="3" checked> Wed</label>
+          <label class="badge" style="cursor: pointer;"><input type="checkbox" class="weekday-checkbox" value="4" checked> Thu</label>
+          <label class="badge" style="cursor: pointer;"><input type="checkbox" class="weekday-checkbox" value="5" checked> Fri</label>
+          <label class="badge" style="cursor: pointer;"><input type="checkbox" class="weekday-checkbox" value="6"> Sat</label>
+          <label class="badge" style="cursor: pointer;"><input type="checkbox" class="weekday-checkbox" value="0"> Sun</label>
+        </div>
+
+        <!-- Habit Stacking -->
+        <div style="background: rgba(155, 140, 255, 0.05); border: 1px solid rgba(155, 140, 255, 0.2); padding: 14px; border-radius: var(--radius-md); margin-bottom: 16px;">
+          <label class="form-label" style="color: var(--accent-light); font-weight: 700;">🔗 Habit Stacking (Optional)</label>
+          <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;">
+            Link this habit right after an existing trigger routine.
+          </div>
+          <div class="form-group" style="margin-bottom: 8px;">
+            <label class="form-label">After Habit:</label>
+            <select id="habit-stack-after" class="form-select">
+              <option value="">-- None --</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label">I will:</label>
+            <input type="text" id="habit-stack-action" class="form-input" placeholder="e.g., Stretch for 5 minutes immediately">
+          </div>
+        </div>
+
+        <!-- Positive / Negative Habit Toggle & Reminder -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <label style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer;">
+            <input type="checkbox" id="habit-is-positive" checked>
+            <span>Positive Habit (Build routine)</span>
+          </label>
+
+          <label style="display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer;">
+            <input type="checkbox" id="habit-reminder-enabled">
+            <span>Reminder ⏰</span>
+          </label>
+        </div>
+
+        <div class="form-group" id="reminder-time-group" style="margin-bottom: 20px;">
+          <label class="form-label" for="habit-reminder-time">Daily Reminder Time</label>
+          <input type="time" id="habit-reminder-time" class="form-input" value="09:00">
+        </div>
+
+        <!-- Submit Buttons -->
+        <div style="display: flex; justify-content: flex-end; gap: 12px; border-top: 1px solid var(--glass-border); padding-top: 16px;">
+          <button type="button" class="btn btn-ghost" onclick="closeHabitModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Habit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/habits.js"></script>
+</body>
+</html>

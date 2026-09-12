@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="View complete historical logs, reflections, and habit completions in AuraHabit.">
+  <title>History — AuraHabit</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+  <div class="ambient-background">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <header class="mobile-top-bar">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <div class="brand-icon" style="width: 32px; height: 32px; font-size: 16px;">✨</div>
+      <span class="brand-name" style="font-size: 17px;">AuraHabit</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <div class="user-avatar" id="mobile-user-avatar" style="width: 32px; height: 32px; font-size: 12px;">U</div>
+      <button class="btn btn-ghost btn-sm" onclick="clearAuth()" title="Sign Out" style="font-size: 14px; padding: 4px 8px;">🚪</button>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <aside class="sidebar">
+      <a href="/dashboard.html" class="brand">
+        <div class="brand-icon">✨</div>
+        <span class="brand-name">AuraHabit</span>
+      </a>
+
+      <div class="nav-section-label">Menu</div>
+      <ul class="nav-list">
+        <li><a href="/dashboard.html" class="nav-link"><span class="nav-icon">📊</span><span>Dashboard</span></a></li>
+        <li><a href="/habits.html" class="nav-link"><span class="nav-icon">✨</span><span>Habits</span></a></li>
+        <li><a href="/calendar.html" class="nav-link"><span class="nav-icon">📅</span><span>Calendar</span></a></li>
+        <li><a href="/analytics.html" class="nav-link"><span class="nav-icon">📈</span><span>Analytics</span></a></li>
+        <li><a href="/goals.html" class="nav-link"><span class="nav-icon">🎯</span><span>Goals</span></a></li>
+        <li><a href="/history.html" class="nav-link active"><span class="nav-icon">📜</span><span>History</span></a></li>
+        <li><a href="/settings.html" class="nav-link"><span class="nav-icon">⚙️</span><span>Settings</span></a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <a href="/settings.html" class="user-profile-summary">
+          <div class="user-avatar" id="user-initials">U</div>
+          <div class="user-meta">
+            <span class="user-name" id="sidebar-user-name">User</span>
+            <span class="user-status">Active Account</span>
+          </div>
+        </a>
+        <button class="btn btn-ghost btn-icon" onclick="clearAuth()" title="Sign Out">🚪</button>
+      </div>
+      <div style="font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 10px; padding-top: 8px; border-top: 1px dashed rgba(255,255,255,0.08);">
+        Built by <strong style="color: var(--accent-light);">Subham Sahoo</strong>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="page-header">
+        <div>
+          <h1 class="greeting-title">Activity History</h1>
+          <p class="greeting-subtitle">Review every check-in, logged quantity, duration, and daily note.</p>
+        </div>
+      </header>
+
+      <!-- Filter Controls Bar -->
+      <section class="glass-card" style="padding: 16px 20px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+        <!-- Status Tabs -->
+        <div style="display: flex; gap: 6px; background: rgba(255,255,255,0.04); padding: 4px; border-radius: var(--radius-md); border: 1px solid var(--glass-border);">
+          <button class="btn btn-ghost btn-sm tab-btn active" data-status="all">All</button>
+          <button class="btn btn-ghost btn-sm tab-btn" data-status="completed">Completed</button>
+          <button class="btn btn-ghost btn-sm tab-btn" data-status="skipped">Skipped</button>
+          <button class="btn btn-ghost btn-sm tab-btn" data-status="missed">Missed</button>
+        </div>
+
+        <input type="text" id="search-history" class="form-input" placeholder="🔍 Search habits or notes..." style="max-width: 320px; padding: 8px 14px; font-size: 13px;">
+      </section>
+
+      <!-- History Timeline List -->
+      <section id="history-timeline-container">
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <span>Loading activity history...</span>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="mobile-bottom-nav">
+    <a href="/dashboard.html" class="mobile-nav-item"><span class="mobile-nav-icon">📊</span><span>Home</span></a>
+    <a href="/habits.html" class="mobile-nav-item"><span class="mobile-nav-icon">✨</span><span>Habits</span></a>
+    <a href="/calendar.html" class="mobile-nav-item"><span class="mobile-nav-icon">📅</span><span>Calendar</span></a>
+    <a href="/analytics.html" class="mobile-nav-item"><span class="mobile-nav-icon">📈</span><span>Analytics</span></a>
+    <a href="/settings.html" class="mobile-nav-item"><span class="mobile-nav-icon">⚙️</span><span>Settings</span></a>
+  </nav>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/history.js"></script>
+</body>
+</html>

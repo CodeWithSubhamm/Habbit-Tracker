@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AuraHabit — A classy, minimal, glassmorphic habit tracker designed to build routines, track streaks, and master daily progress from any device.">
+  <title>AuraHabit — Sign In & Register</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <style>
+    .auth-page-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .auth-glass-wrapper {
+      width: 100%;
+      max-width: 1020px;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      border-radius: var(--radius-xl);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+      transition: var(--transition-normal);
+    }
+
+    /* Left Hero Showcase */
+    .auth-hero-panel {
+      padding: 48px 40px;
+      background: linear-gradient(135deg, rgba(155, 140, 255, 0.12) 0%, rgba(96, 165, 250, 0.05) 100%);
+      border-right: 1px solid var(--glass-border);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .auth-brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-icon-hero {
+      width: 50px;
+      height: 50px;
+      border-radius: var(--radius-md);
+      background: var(--accent-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      box-shadow: 0 0 25px var(--accent-glow);
+    }
+
+    .auth-hero-tagline {
+      margin-top: 36px;
+      font-family: var(--font-heading);
+      font-size: 34px;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .auth-hero-desc {
+      margin-top: 14px;
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* Floating Feature Badges */
+    .hero-floating-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin: 32px 0;
+    }
+
+    .hero-badge-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      transform: translateY(0);
+      transition: all 0.3s ease;
+    }
+
+    .hero-badge-card:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--accent-light);
+    }
+
+    .badge-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      background: rgba(155, 140, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .badge-info h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .badge-info p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Right Form Area */
+    .auth-form-panel {
+      padding: 48px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .auth-nav-tabs {
+      display: flex;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 5px;
+      margin-bottom: 30px;
+    }
+
+    .auth-tab-btn {
+      flex: 1;
+      padding: 10px 16px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: var(--transition-normal);
+    }
+
+    .auth-tab-btn.active {
+      background: var(--accent-gradient);
+      color: #ffffff;
+      box-shadow: 0 4px 15px var(--accent-glow);
+    }
+
+    .input-wrapper {
+      position: relative;
+      margin-top: 6px;
+    }
+
+    .input-wrapper .input-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .input-wrapper .form-input {
+      padding-left: 42px;
+      padding-right: 42px;
+    }
+
+    .pwd-toggle-btn {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 16px;
+      padding: 2px;
+    }
+
+    .pwd-toggle-btn:hover {
+      color: var(--text-primary);
+    }
+
+    .auth-btn-primary {
+      width: 100%;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      border-radius: var(--radius-md);
+      margin-top: 18px;
+      box-shadow: 0 6px 20px var(--accent-glow);
+      transition: all 0.3s ease;
+    }
+
+    .auth-btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px var(--accent-glow);
+    }
+
+    .demo-login-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 24px 0 18px;
+      color: var(--text-muted);
+      font-size: 12.5px;
+    }
+
+    .demo-login-divider::before,
+    .demo-login-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--glass-border);
+    }
+
+    @media (max-width: 860px) {
+      .auth-glass-wrapper {
+        grid-template-columns: 1fr;
+      }
+      .auth-hero-panel {
+        display: none;
+      }
+      .auth-form-panel {
+        padding: 36px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Ambient Animated Background -->
+  <div class="ambient-background">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <div class="auth-page-container">
+    <div class="auth-glass-wrapper">
+      
+      <!-- Left Hero Showcase Panel -->
+      <div class="auth-hero-panel">
+        <div>
+          <div class="auth-brand-logo">
+            <div class="brand-icon-hero">✨</div>
+            <h1 class="brand-name" style="font-size: 28px; letter-spacing: -0.02em;">AuraHabit</h1>
+          </div>
+
+          <h2 class="auth-hero-tagline">Master Your Habits.<br>Elevate Your Daily Life.</h2>
+          <p class="auth-hero-desc">
+            A minimal, glassmorphic habit tracker & to-do workspace designed to help you build streaks and achieve goals with real-time cloud sync.
+          </p>
+
+          <div class="hero-floating-cards">
+            <div class="hero-badge-card">
+              <div class="badge-icon">🔥</div>
+              <div class="badge-info">
+                <h4>Smart Streak Tracking</h4>
+                <p>Automatic streak calculation & daily reminder notifications</p>
+              </div>
+            </div>
+
+            <div class="hero-badge-card">
+              <div class="badge-icon">☁️</div>
+              <div class="badge-info">
+                <h4>MongoDB Cloud Sync</h4>
+                <p>Access your habits securely across any browser or mobile device</p>
+              </div>
+            </div>
+
+            <div class="hero-badge-card">
+              <div class="badge-icon">📊</div>
+              <div class="badge-info">
+                <h4>Heatmaps & Analytics</h4>
+                <p>Detailed breakdown of completion rates & goal history</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="font-size: 12px; color: var(--text-muted); display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; gap: 16px;">
+            <span>🔒 256-bit Encrypted</span>
+            <span>⚡ Lightning Fast</span>
+            <span>✨ 100% Free</span>
+          </div>
+          <div style="font-size: 11.5px; color: var(--text-secondary); margin-top: 4px; padding-top: 8px; border-top: 1px dashed rgba(255,255,255,0.1);">
+            Architected & Built by <strong style="color: var(--accent-light);">Subham Sahoo</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Interactive Form Panel -->
+      <div class="auth-form-panel">
+        <!-- Auth Navigation Tabs -->
+        <div class="auth-nav-tabs">
+          <button id="tab-login" class="auth-tab-btn active">Sign In</button>
+          <button id="tab-register" class="auth-tab-btn">Create Account</button>
+        </div>
+
+        <div style="margin-bottom: 24px;">
+          <h2 id="auth-title" style="font-family: var(--font-heading); font-size: 24px; font-weight: 700;">Welcome Back 👋</h2>
+          <p id="auth-subtitle" style="font-size: 13.5px; color: var(--text-secondary); margin-top: 4px;">
+            Sign in to access your habits and daily progress from any device.
+          </p>
+        </div>
+
+        <!-- Sign In Form -->
+        <form id="form-login">
+          <div class="form-group" style="text-align: left;">
+            <label class="form-label" for="login-email">Email Address</label>
+            <div class="input-wrapper">
+              <span class="input-icon">✉️</span>
+              <input type="email" id="login-email" class="form-input" placeholder="you@example.com" required autocomplete="email">
+            </div>
+          </div>
+
+          <div class="form-group" style="text-align: left;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <label class="form-label" for="login-password" style="margin-bottom: 0;">Password</label>
+            </div>
+            <div class="input-wrapper">
+              <span class="input-icon">🔒</span>
+              <input type="password" id="login-password" class="form-input" placeholder="••••••••" required autocomplete="current-password">
+              <button type="button" class="pwd-toggle-btn" onclick="togglePasswordVisibility('login-password', this)" title="Show/Hide Password">👁️</button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary auth-btn-primary">
+            Sign In to Dashboard →
+          </button>
+        </form>
+
+        <!-- Create Account Form -->
+        <form id="form-register" style="display: none;">
+          <div class="form-group" style="text-align: left;">
+            <label class="form-label" for="reg-name">Full Name</label>
+            <div class="input-wrapper">
+              <span class="input-icon">👤</span>
+              <input type="text" id="reg-name" class="form-input" placeholder="Subham" required autocomplete="name">
+            </div>
+          </div>
+
+          <div class="form-group" style="text-align: left;">
+            <label class="form-label" for="reg-email">Email Address</label>
+            <div class="input-wrapper">
+              <span class="input-icon">✉️</span>
+              <input type="email" id="reg-email" class="form-input" placeholder="you@example.com" required autocomplete="email">
+            </div>
+          </div>
+
+          <div class="form-group" style="text-align: left;">
+            <label class="form-label" for="reg-password">Create Password</label>
+            <div class="input-wrapper">
+              <span class="input-icon">🔑</span>
+              <input type="password" id="reg-password" class="form-input" placeholder="At least 6 characters" minlength="6" required autocomplete="new-password">
+              <button type="button" class="pwd-toggle-btn" onclick="togglePasswordVisibility('reg-password', this)" title="Show/Hide Password">👁️</button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary auth-btn-primary">
+            Create Fresh Account →
+          </button>
+        </form>
+
+        <!-- Quick Demo Login Action -->
+        <div class="demo-login-divider">Or quick test</div>
+        <button type="button" class="btn btn-glass" onclick="fillDemoAccount()" style="width: 100%; font-size: 13px; font-weight: 600; padding: 10px;">
+          ⚡ Auto-Fill Demo Credentials
+        </button>
+
+        <div id="post-auth-controls" style="display: none; margin-top: 20px; text-align: center;">
+          <button id="btn-logout" class="btn btn-outline btn-sm" style="background: rgba(255,255,255,0.15);">Sign Out</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    function togglePasswordVisibility(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🙈';
+      } else {
+        input.type = 'password';
+        btn.textContent = '👁️';
+      }
+    }
+
+    function fillDemoAccount() {
+      const loginEmail = document.getElementById('login-email');
+      const loginPwd = document.getElementById('login-password');
+      if (loginEmail && loginPwd) {
+        loginEmail.value = 'subham@example.com';
+        loginPwd.value = 'password123';
+        showToast('Demo credentials inserted! Click Sign In to continue.', 'info');
+      }
+    }
+  </script>
+</body>
+</html>

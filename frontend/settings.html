@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Configure themes, browser notifications, accessibility settings, and export your data in AuraHabit.">
+  <title>Settings & Preferences — AuraHabit</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <style>
+    /* Full Width Responsive Settings Dashboard Layout */
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      gap: 24px;
+      width: 100%;
+    }
+
+    .settings-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: var(--glass-shadow);
+      transition: var(--transition-normal);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .settings-card:hover {
+      border-color: var(--glass-border-hover);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+    }
+
+    .settings-section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    .settings-header-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-md);
+      background: rgba(155, 140, 255, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .theme-selector-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .theme-option-card {
+      padding: 16px 12px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--glass-border);
+      background: rgba(255, 255, 255, 0.03);
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.25s ease;
+    }
+
+    .theme-option-card:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--accent-light);
+    }
+
+    .theme-option-card input[type="radio"] {
+      display: none;
+    }
+
+    .theme-option-card:has(input[type="radio"]:checked) {
+      background: rgba(155, 140, 255, 0.18);
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    /* Switch Component */
+    .switch-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      cursor: pointer;
+    }
+
+    .switch-label:last-child {
+      border-bottom: none;
+    }
+
+    .switch-info h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .switch-info p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .custom-switch {
+      position: relative;
+      display: inline-block;
+      width: 44px;
+      height: 24px;
+    }
+
+    .custom-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .switch-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(255, 255, 255, 0.15);
+      transition: .3s;
+      border-radius: 24px;
+      border: 1px solid var(--glass-border);
+    }
+
+    .switch-slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+
+    input:checked + .switch-slider {
+      background: var(--accent-gradient);
+    }
+
+    input:checked + .switch-slider:before {
+      transform: translateX(20px);
+    }
+
+    @media (max-width: 768px) {
+      .settings-grid {
+        grid-template-columns: 1fr;
+      }
+      .theme-selector-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient-background">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <header class="mobile-top-bar">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <div class="brand-icon" style="width: 32px; height: 32px; font-size: 16px;">✨</div>
+      <span class="brand-name" style="font-size: 17px;">AuraHabit</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <div class="user-avatar" id="mobile-user-avatar" style="width: 32px; height: 32px; font-size: 12px;">U</div>
+      <button class="btn btn-ghost btn-sm" onclick="clearAuth()" title="Sign Out" style="font-size: 14px; padding: 4px 8px;">🚪</button>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <aside class="sidebar">
+      <a href="/dashboard.html" class="brand">
+        <div class="brand-icon">✨</div>
+        <span class="brand-name">AuraHabit</span>
+      </a>
+
+      <div class="nav-section-label">Menu</div>
+      <ul class="nav-list">
+        <li><a href="/dashboard.html" class="nav-link"><span class="nav-icon">📊</span><span>Dashboard</span></a></li>
+        <li><a href="/habits.html" class="nav-link"><span class="nav-icon">✨</span><span>Habits</span></a></li>
+        <li><a href="/calendar.html" class="nav-link"><span class="nav-icon">📅</span><span>Calendar</span></a></li>
+        <li><a href="/analytics.html" class="nav-link"><span class="nav-icon">📈</span><span>Analytics</span></a></li>
+        <li><a href="/goals.html" class="nav-link"><span class="nav-icon">🎯</span><span>Goals</span></a></li>
+        <li><a href="/history.html" class="nav-link"><span class="nav-icon">📜</span><span>History</span></a></li>
+        <li><a href="/settings.html" class="nav-link active"><span class="nav-icon">⚙️</span><span>Settings</span></a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <a href="/settings.html" class="user-profile-summary">
+          <div class="user-avatar" id="user-initials">U</div>
+          <div class="user-meta">
+            <span class="user-name" id="sidebar-user-name">User</span>
+            <span class="user-status">Active Account</span>
+          </div>
+        </a>
+        <button class="btn btn-ghost btn-icon" onclick="clearAuth()" title="Sign Out">🚪</button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="page-header" style="margin-bottom: 28px;">
+        <div>
+          <h1 class="greeting-title">Preferences & Settings</h1>
+          <p class="greeting-subtitle">Customize visual themes, notification reminders, security, and export your database backups.</p>
+        </div>
+      </header>
+
+      <!-- Full-Width Responsive Settings Grid -->
+      <div class="settings-grid">
+        
+        <!-- Column 1: Appearance & Display Preferences -->
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+          
+          <!-- Appearance & Theme Card -->
+          <div class="settings-card">
+            <div>
+              <div class="settings-section-header">
+                <div class="settings-header-icon">🎨</div>
+                <div>
+                  <h3 class="section-title" style="margin: 0; font-size: 16px;">Visual Theme & Appearance</h3>
+                  <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">Tailor the glassmorphic aesthetics</p>
+                </div>
+              </div>
+
+              <div class="theme-selector-grid">
+                <label class="theme-option-card">
+                  <input type="radio" name="theme-option" value="dark" checked>
+                  <div style="font-size: 22px; margin-bottom: 6px;">🌙</div>
+                  <div style="font-weight: 700; font-size: 13.5px;">Dark Obsidian</div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Sleek Dark Glass</div>
+                </label>
+
+                <label class="theme-option-card">
+                  <input type="radio" name="theme-option" value="light">
+                  <div style="font-size: 22px; margin-bottom: 6px;">☀️</div>
+                  <div style="font-weight: 700; font-size: 13.5px;">Frosted Light</div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Clean Daylight</div>
+                </label>
+
+                <label class="theme-option-card">
+                  <input type="radio" name="theme-option" value="system">
+                  <div style="font-size: 22px; margin-bottom: 6px;">💻</div>
+                  <div style="font-weight: 700; font-size: 13.5px;">System Auto</div>
+                  <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Matches OS Mode</div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Browser Reminders Card -->
+          <div class="settings-card">
+            <div>
+              <div class="settings-section-header">
+                <div class="settings-header-icon">⏰</div>
+                <div>
+                  <h3 class="section-title" style="margin: 0; font-size: 16px;">Browser Reminders & Alerts</h3>
+                  <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">Never break a streak with scheduled prompts</p>
+                </div>
+              </div>
+
+              <label class="switch-label">
+                <div class="switch-info">
+                  <h4>Push Notifications</h4>
+                  <p>Receive local browser alerts when habit reminders trigger</p>
+                </div>
+                <div class="custom-switch">
+                  <input type="checkbox" id="toggle-notifications">
+                  <span class="switch-slider"></span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Accessibility Controls Card -->
+          <div class="settings-card">
+            <div>
+              <div class="settings-section-header">
+                <div class="settings-header-icon">👁️</div>
+                <div>
+                  <h3 class="section-title" style="margin: 0; font-size: 16px;">Accessibility & Display</h3>
+                  <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">Customize contrast and motion preferences</p>
+                </div>
+              </div>
+
+              <div style="display: flex; flex-direction: column;">
+                <label class="switch-label">
+                  <div class="switch-info">
+                    <h4>Reduced Motion</h4>
+                    <p>Pause ambient background blob animations</p>
+                  </div>
+                  <div class="custom-switch">
+                    <input type="checkbox" id="toggle-reduced-motion">
+                    <span class="switch-slider"></span>
+                  </div>
+                </label>
+
+                <label class="switch-label">
+                  <div class="switch-info">
+                    <h4>Larger Typography</h4>
+                    <p>Scale text font size by +10% for improved readability</p>
+                  </div>
+                  <div class="custom-switch">
+                    <input type="checkbox" id="toggle-larger-text">
+                    <span class="switch-slider"></span>
+                  </div>
+                </label>
+
+                <label class="switch-label">
+                  <div class="switch-info">
+                    <h4>High Contrast Borders</h4>
+                    <p>Enhance element outlines and card boundaries</p>
+                  </div>
+                  <div class="custom-switch">
+                    <input type="checkbox" id="toggle-high-contrast">
+                    <span class="switch-slider"></span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Column 2: Account Profile & Data Management -->
+        <div style="display: flex; flex-direction: column; gap: 24px;">
+          
+          <!-- Profile & Security Card -->
+          <div class="settings-card">
+            <div>
+              <div class="settings-section-header">
+                <div class="settings-header-icon">👤</div>
+                <div>
+                  <h3 class="section-title" style="margin: 0; font-size: 16px;">Account Profile & Security</h3>
+                  <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">Manage display details & password</p>
+                </div>
+              </div>
+
+              <form id="form-profile">
+                <div class="form-group">
+                  <label class="form-label" for="settings-name">Display Name</label>
+                  <input type="text" id="settings-name" class="form-input" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="settings-email">Email Address</label>
+                  <input type="email" id="settings-email" class="form-input" disabled style="opacity: 0.65; cursor: not-allowed;">
+                </div>
+
+                <div style="margin: 18px 0 14px; padding-top: 14px; border-top: 1px solid var(--glass-border);">
+                  <h4 style="font-size: 13.5px; font-weight: 700; color: var(--text-primary); margin-bottom: 10px;">Update Password</h4>
+                  <div class="form-group">
+                    <label class="form-label" for="settings-current-pwd">Current Password</label>
+                    <input type="password" id="settings-current-pwd" class="form-input" placeholder="••••••••">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="settings-new-pwd">New Password</label>
+                    <input type="password" id="settings-new-pwd" class="form-input" placeholder="At least 6 characters">
+                  </div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+                  <button type="button" class="btn btn-ghost" id="btn-logout" style="color: var(--danger);">
+                    🚪 Sign Out
+                  </button>
+                  <button type="submit" class="btn btn-primary" style="padding: 10px 22px;">
+                    Save Changes
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Database Export & Backups Card -->
+          <div class="settings-card">
+            <div>
+              <div class="settings-section-header">
+                <div class="settings-header-icon">💾</div>
+                <div>
+                  <h3 class="section-title" style="margin: 0; font-size: 16px;">Database Backups & Export</h3>
+                  <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">Export complete history anytime</p>
+                </div>
+              </div>
+
+              <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 18px;">
+                Download your habits, daily completion history, and streak stats directly to CSV or JSON formats for analysis in Excel or standalone backups.
+              </p>
+
+              <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                <button class="btn btn-glass" id="btn-export-csv" style="flex: 1; padding: 12px 16px; min-width: 170px;">
+                  📥 Download CSV
+                </button>
+                <button class="btn btn-glass" id="btn-export-json" style="flex: 1; padding: 12px 16px; min-width: 170px;">
+                  📦 Full Backup (JSON)
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Developer & App Info Card -->
+          <div class="settings-card" style="background: linear-gradient(135deg, rgba(155, 140, 255, 0.08) 0%, rgba(96, 165, 250, 0.04) 100%); border-color: rgba(155, 140, 255, 0.25);">
+            <div>
+              <div class="settings-section-header" style="border-bottom-color: rgba(155, 140, 255, 0.2); margin-bottom: 14px; padding-bottom: 10px;">
+                <div class="settings-header-icon" style="background: var(--accent-gradient); color: white; box-shadow: 0 0 15px var(--accent-glow);">👨‍💻</div>
+                <div>
+                  <h3 class="section-title" style="margin: 0; font-size: 16px;">Application & Developer</h3>
+                  <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">Subham Sahoo</p>
+                </div>
+              </div>
+
+              <div style="font-size: 12.5px; color: var(--text-secondary); display: flex; justify-content: space-between; align-items: center;">
+                <span>AuraHabit v1.0.0</span>
+                <span>Crafted with ❤️ by <strong>Subham Sahoo</strong></span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="mobile-bottom-nav">
+    <a href="/dashboard.html" class="mobile-nav-item"><span class="mobile-nav-icon">📊</span><span>Home</span></a>
+    <a href="/habits.html" class="mobile-nav-item"><span class="mobile-nav-icon">✨</span><span>Habits</span></a>
+    <a href="/calendar.html" class="mobile-nav-item"><span class="mobile-nav-icon">📅</span><span>Calendar</span></a>
+    <a href="/analytics.html" class="mobile-nav-item"><span class="mobile-nav-icon">📈</span><span>Analytics</span></a>
+    <a href="/settings.html" class="mobile-nav-item active"><span class="mobile-nav-icon">⚙️</span><span>Settings</span></a>
+  </nav>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/settings.js"></script>
+</body>
+</html>

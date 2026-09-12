@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Set weekly and monthly habit milestones and track your goals in AuraHabit.">
+  <title>Goals — AuraHabit</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+  <div class="ambient-background">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <header class="mobile-top-bar">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <div class="brand-icon" style="width: 32px; height: 32px; font-size: 16px;">✨</div>
+      <span class="brand-name" style="font-size: 17px;">AuraHabit</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <div class="user-avatar" id="mobile-user-avatar" style="width: 32px; height: 32px; font-size: 12px;">U</div>
+      <button class="btn btn-ghost btn-sm" onclick="clearAuth()" title="Sign Out" style="font-size: 14px; padding: 4px 8px;">🚪</button>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <aside class="sidebar">
+      <a href="/dashboard.html" class="brand">
+        <div class="brand-icon">✨</div>
+        <span class="brand-name">AuraHabit</span>
+      </a>
+
+      <div class="nav-section-label">Menu</div>
+      <ul class="nav-list">
+        <li><a href="/dashboard.html" class="nav-link"><span class="nav-icon">📊</span><span>Dashboard</span></a></li>
+        <li><a href="/habits.html" class="nav-link"><span class="nav-icon">✨</span><span>Habits</span></a></li>
+        <li><a href="/calendar.html" class="nav-link"><span class="nav-icon">📅</span><span>Calendar</span></a></li>
+        <li><a href="/analytics.html" class="nav-link"><span class="nav-icon">📈</span><span>Analytics</span></a></li>
+        <li><a href="/goals.html" class="nav-link active"><span class="nav-icon">🎯</span><span>Goals</span></a></li>
+        <li><a href="/history.html" class="nav-link"><span class="nav-icon">📜</span><span>History</span></a></li>
+        <li><a href="/settings.html" class="nav-link"><span class="nav-icon">⚙️</span><span>Settings</span></a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <a href="/settings.html" class="user-profile-summary">
+          <div class="user-avatar" id="user-initials">U</div>
+          <div class="user-meta">
+            <span class="user-name" id="sidebar-user-name">User</span>
+            <span class="user-status">Active Account</span>
+          </div>
+        </a>
+        <button class="btn btn-ghost btn-icon" onclick="clearAuth()" title="Sign Out">🚪</button>
+      </div>
+      <div style="font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 10px; padding-top: 8px; border-top: 1px dashed rgba(255,255,255,0.08);">
+        Built by <strong style="color: var(--accent-light);">Subham Sahoo</strong>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="page-header">
+        <div>
+          <h1 class="greeting-title">Goals & Milestones</h1>
+          <p class="greeting-subtitle">Set weekly and monthly habit targets to push your boundaries.</p>
+        </div>
+        <button class="btn btn-primary" onclick="openGoalModal()">
+          + Create New Goal
+        </button>
+      </header>
+
+      <!-- Goals Grid -->
+      <section class="goals-grid" id="goals-grid-container">
+        <div class="loading-state" style="grid-column: 1 / -1;">
+          <div class="spinner"></div>
+          <span>Loading goals...</span>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="mobile-bottom-nav">
+    <a href="/dashboard.html" class="mobile-nav-item"><span class="mobile-nav-icon">📊</span><span>Home</span></a>
+    <a href="/habits.html" class="mobile-nav-item"><span class="mobile-nav-icon">✨</span><span>Habits</span></a>
+    <a href="/calendar.html" class="mobile-nav-item"><span class="mobile-nav-icon">📅</span><span>Calendar</span></a>
+    <a href="/analytics.html" class="mobile-nav-item"><span class="mobile-nav-icon">📈</span><span>Analytics</span></a>
+    <a href="/settings.html" class="mobile-nav-item"><span class="mobile-nav-icon">⚙️</span><span>Settings</span></a>
+  </nav>
+
+  <!-- Create / Edit Goal Modal -->
+  <div class="modal-backdrop" id="goal-modal">
+    <div class="modal-card" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="goal-modal-title">Create New Goal</h3>
+        <button class="modal-close" onclick="closeGoalModal()">&times;</button>
+      </div>
+
+      <form id="form-goal">
+        <div class="form-group">
+          <label class="form-label" for="goal-name">Goal Title *</label>
+          <input type="text" id="goal-name" class="form-input" placeholder="e.g., Exercise 20 times this month" required>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div class="form-group">
+            <label class="form-label" for="goal-target">Target Count *</label>
+            <input type="number" id="goal-target" class="form-input" placeholder="20" min="1" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="goal-unit">Unit Label</label>
+            <input type="text" id="goal-unit" class="form-input" value="times" placeholder="e.g., workouts, pages">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="goal-period">Timeframe Period</label>
+          <select id="goal-period" class="form-select">
+            <option value="monthly">Monthly Goal</option>
+            <option value="weekly">Weekly Goal</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="goal-habit-select">Link to Habit (Auto-syncs progress)</label>
+          <select id="goal-habit-select" class="form-select">
+            <option value="">-- General Goal --</option>
+          </select>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 12px; border-top: 1px solid var(--glass-border); padding-top: 16px;">
+          <button type="button" class="btn btn-ghost" onclick="closeGoalModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Goal</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/goals.js"></script>
+</body>
+</html>
