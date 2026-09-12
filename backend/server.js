@@ -71,12 +71,13 @@ app.use((err, req, res, next) => {
 // Database Connection Helper
 async function connectDatabase() {
   try {
-    await mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 10000 });
+    await mongoose.connect(MONGODB_URI, { serverSelectionTimeoutMS: 2500 });
     console.log('✨ Connected to MongoDB successfully via URI:', MONGODB_URI);
   } catch (err) {
     console.log('⚠️ Could not connect to external MongoDB ( ', err.message, ' ).');
     console.log('🔄 Initializing embedded in-memory MongoDB engine for seamless standalone operation...');
     try {
+      await mongoose.disconnect();
       const { MongoMemoryServer } = require('mongodb-memory-server');
       const mongod = await MongoMemoryServer.create();
       const uri = mongod.getUri();
@@ -86,9 +87,12 @@ async function connectDatabase() {
       console.error('❌ Could not start in-memory MongoDB:', memErr.message);
     }
   } finally {
-    app.listen(PORT, () => {
-      console.log(`🚀 Glassmorphic Habit Tracker running at http://localhost:${PORT}`);
-    });
+    if (!app.get('serverStarted')) {
+      app.set('serverStarted', true);
+      app.listen(PORT, () => {
+        console.log(`🚀 Glassmorphic Habit Tracker running at http://localhost:${PORT}`);
+      });
+    }
   }
 }
 

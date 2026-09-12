@@ -63,10 +63,11 @@ async function loadDashboardData() {
 
     if (habitsRes && habitsRes.success) {
       currentHabits = habitsRes.habits;
-      renderTodayHabits();
     }
+    renderTodayHabits();
   } catch (error) {
     console.error('Failed to load dashboard:', error);
+    renderTodayHabits();
   }
 }
 

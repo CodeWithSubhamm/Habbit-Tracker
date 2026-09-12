@@ -30,10 +30,11 @@ async function loadGoalsAndHabits() {
 
     if (goalsRes && goalsRes.success) {
       allGoals = goalsRes.goals;
-      renderGoalsList();
     }
+    renderGoalsList();
   } catch (error) {
     console.error('Failed to load goals:', error);
+    renderGoalsList();
   }
 }
 

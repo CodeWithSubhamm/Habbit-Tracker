@@ -31,10 +31,11 @@ async function loadHistory() {
     const res = await fetchWithAuth('/completions');
     if (res && res.success) {
       allCompletions = res.completions;
-      renderHistoryTimeline();
     }
+    renderHistoryTimeline();
   } catch (error) {
     console.error('Failed to load history:', error);
+    renderHistoryTimeline();
   }
 }
 

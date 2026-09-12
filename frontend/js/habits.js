@@ -77,10 +77,11 @@ async function loadHabits() {
     if (res && res.success) {
       allHabits = res.habits;
       populateStackingDropdown();
-      renderHabitsList();
     }
+    renderHabitsList();
   } catch (error) {
     console.error('Failed to load habits:', error);
+    renderHabitsList();
   }
 }
 
