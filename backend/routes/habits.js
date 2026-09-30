@@ -178,6 +178,35 @@ router.patch('/:id/archive', async (req, res) => {
   }
 });
 
+// PATCH /api/habits/:id/reminder - Toggle or update reminder settings
+router.patch('/:id/reminder', async (req, res) => {
+  try {
+    const habit = await Habit.findOne({ _id: req.params.id, userId: req.user._id });
+    if (!habit) {
+      return res.status(404).json({ success: false, error: 'Habit not found.' });
+    }
+
+    const { enabled, time } = req.body;
+    if (!habit.reminder) {
+      habit.reminder = { enabled: false, time: '09:00' };
+    }
+
+    if (enabled !== undefined) habit.reminder.enabled = Boolean(enabled);
+    if (time !== undefined && time.trim()) habit.reminder.time = time.trim();
+
+    await habit.save();
+
+    return res.json({
+      success: true,
+      message: `Reminder ${habit.reminder.enabled ? 'enabled for ' + habit.reminder.time : 'disabled'}!`,
+      habit
+    });
+  } catch (error) {
+    console.error('Reminder update error:', error);
+    return res.status(500).json({ success: false, error: 'Failed to update reminder settings.' });
+  }
+});
+
 // DELETE /api/habits/:id - Delete habit
 router.delete('/:id', async (req, res) => {
   try {

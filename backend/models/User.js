@@ -22,6 +22,10 @@ const UserSchema = new Schema({
   avatarUrl: {
     type: String,
   },
+  theme: {
+    type: String,
+    default: 'dark',
+  },
   preferences: {
     type: Schema.Types.Mixed,
   },
