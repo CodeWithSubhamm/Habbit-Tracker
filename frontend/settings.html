@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Configure themes, browser notifications, accessibility settings, and export your data in AuraHabit.">
+  <meta name="description"
+    content="Configure themes, browser notifications, accessibility settings, and export your data in AuraHabit.">
   <title>Settings & Preferences — AuraHabit</title>
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/dashboard.css">
@@ -130,7 +132,10 @@
     .switch-slider {
       position: absolute;
       cursor: pointer;
-      top: 0; left: 0; right: 0; bottom: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       background-color: rgba(255, 255, 255, 0.15);
       transition: .3s;
       border-radius: 24px;
@@ -149,11 +154,11 @@
       border-radius: 50%;
     }
 
-    input:checked + .switch-slider {
+    input:checked+.switch-slider {
       background: var(--accent-gradient);
     }
 
-    input:checked + .switch-slider:before {
+    input:checked+.switch-slider:before {
       transform: translateX(20px);
     }
 
@@ -161,12 +166,14 @@
       .settings-grid {
         grid-template-columns: 1fr;
       }
+
       .theme-selector-grid {
         grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
+
 <body>
   <div class="ambient-background">
     <div class="blob blob-1"></div>
@@ -181,7 +188,8 @@
     </div>
     <div style="display: flex; align-items: center; gap: 10px;">
       <div class="user-avatar" id="mobile-user-avatar" style="width: 32px; height: 32px; font-size: 12px;">U</div>
-      <button class="btn btn-ghost btn-sm" onclick="clearAuth()" title="Sign Out" style="font-size: 14px; padding: 4px 8px;">🚪</button>
+      <button class="btn btn-ghost btn-sm" onclick="clearAuth()" title="Sign Out"
+        style="font-size: 14px; padding: 4px 8px;">🚪</button>
     </div>
   </header>
 
@@ -200,7 +208,8 @@
         <li><a href="/analytics.html" class="nav-link"><span class="nav-icon">📈</span><span>Analytics</span></a></li>
         <li><a href="/goals.html" class="nav-link"><span class="nav-icon">🎯</span><span>Goals</span></a></li>
         <li><a href="/history.html" class="nav-link"><span class="nav-icon">📜</span><span>History</span></a></li>
-        <li><a href="/settings.html" class="nav-link active"><span class="nav-icon">⚙️</span><span>Settings</span></a></li>
+        <li><a href="/settings.html" class="nav-link active"><span class="nav-icon">⚙️</span><span>Settings</span></a>
+        </li>
       </ul>
 
       <div class="sidebar-footer">
@@ -219,16 +228,17 @@
       <header class="page-header" style="margin-bottom: 28px;">
         <div>
           <h1 class="greeting-title">Preferences & Settings</h1>
-          <p class="greeting-subtitle">Customize visual themes, notification reminders, security, and export your database backups.</p>
+          <p class="greeting-subtitle">Customize visual themes, notification reminders, security, and export your
+            database backups.</p>
         </div>
       </header>
 
       <!-- Full-Width Responsive Settings Grid -->
       <div class="settings-grid">
-        
+
         <!-- Column 1: Appearance & Display Preferences -->
         <div style="display: flex; flex-direction: column; gap: 24px;">
-          
+
           <!-- Appearance & Theme Card -->
           <div class="settings-card">
             <div>
@@ -236,7 +246,8 @@
                 <div class="settings-header-icon">🎨</div>
                 <div>
                   <h3 class="section-title" style="margin: 0; font-size: 16px;">Visual Theme & Appearance</h3>
-                  <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">Tailor the glassmorphic aesthetics</p>
+                  <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">Tailor the glassmorphic
+                    aesthetics</p>
                 </div>
               </div>
 
@@ -300,7 +311,8 @@
                 <div class="settings-header-icon">⏰</div>
                 <div>
                   <h3 class="section-title" style="margin: 0; font-size: 16px;">Browser Reminders & Alerts</h3>
-                  <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">Never break a streak with scheduled prompts</p>
+                  <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">Never break a streak with
+                    scheduled prompts</p>
                 </div>
               </div>
 
@@ -324,7 +336,8 @@
                 <div class="settings-header-icon">👁️</div>
                 <div>
                   <h3 class="section-title" style="margin: 0; font-size: 16px;">Accessibility & Display</h3>
-                  <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">Customize contrast and motion preferences</p>
+                  <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">Customize contrast and motion
+                    preferences</p>
                 </div>
               </div>
 
@@ -369,7 +382,7 @@
 
         <!-- Column 2: Account Profile & Data Management -->
         <div style="display: flex; flex-direction: column; gap: 24px;">
-          
+
           <!-- Profile & Security Card -->
           <div class="settings-card">
             <div>
@@ -377,7 +390,8 @@
                 <div class="settings-header-icon">👤</div>
                 <div>
                   <h3 class="section-title" style="margin: 0; font-size: 16px;">Account Profile & Security</h3>
-                  <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">Manage display details & password</p>
+                  <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">Manage display details &
+                    password</p>
                 </div>
               </div>
 
@@ -388,11 +402,13 @@
                 </div>
                 <div class="form-group">
                   <label class="form-label" for="settings-email">Email Address</label>
-                  <input type="email" id="settings-email" class="form-input" disabled style="opacity: 0.65; cursor: not-allowed;">
+                  <input type="email" id="settings-email" class="form-input" disabled
+                    style="opacity: 0.65; cursor: not-allowed;">
                 </div>
 
                 <div style="margin: 18px 0 14px; padding-top: 14px; border-top: 1px solid var(--glass-border);">
-                  <h4 style="font-size: 13.5px; font-weight: 700; color: var(--text-primary); margin-bottom: 10px;">Update Password</h4>
+                  <h4 style="font-size: 13.5px; font-weight: 700; color: var(--text-primary); margin-bottom: 10px;">
+                    Update Password</h4>
                   <div class="form-group">
                     <label class="form-label" for="settings-current-pwd">Current Password</label>
                     <input type="password" id="settings-current-pwd" class="form-input" placeholder="••••••••">
@@ -422,19 +438,23 @@
                 <div class="settings-header-icon">💾</div>
                 <div>
                   <h3 class="section-title" style="margin: 0; font-size: 16px;">Database Backups & Export</h3>
-                  <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">Export complete history anytime</p>
+                  <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">Export complete history
+                    anytime</p>
                 </div>
               </div>
 
               <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 18px;">
-                Download your habits, daily completion history, and streak stats directly to CSV or JSON formats for analysis in Excel or standalone backups.
+                Download your habits, daily completion history, and streak stats directly to CSV or JSON formats for
+                analysis in Excel or standalone backups.
               </p>
 
               <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                <button class="btn btn-glass" id="btn-export-csv" style="flex: 1; padding: 12px 16px; min-width: 170px;">
+                <button class="btn btn-glass" id="btn-export-csv"
+                  style="flex: 1; padding: 12px 16px; min-width: 170px;">
                   📥 Download CSV
                 </button>
-                <button class="btn btn-glass" id="btn-export-json" style="flex: 1; padding: 12px 16px; min-width: 170px;">
+                <button class="btn btn-glass" id="btn-export-json"
+                  style="flex: 1; padding: 12px 16px; min-width: 170px;">
                   📦 Full Backup (JSON)
                 </button>
               </div>
@@ -442,17 +462,22 @@
           </div>
 
           <!-- Developer & App Info Card -->
-          <div class="settings-card" style="background: linear-gradient(135deg, rgba(155, 140, 255, 0.08) 0%, rgba(96, 165, 250, 0.04) 100%); border-color: rgba(155, 140, 255, 0.25);">
+          <div class="settings-card"
+            style="background: linear-gradient(135deg, rgba(155, 140, 255, 0.08) 0%, rgba(96, 165, 250, 0.04) 100%); border-color: rgba(155, 140, 255, 0.25);">
             <div>
-              <div class="settings-section-header" style="border-bottom-color: rgba(155, 140, 255, 0.2); margin-bottom: 14px; padding-bottom: 10px;">
-                <div class="settings-header-icon" style="background: var(--accent-gradient); color: white; box-shadow: 0 0 15px var(--accent-glow);">👨‍💻</div>
+              <div class="settings-section-header"
+                style="border-bottom-color: rgba(155, 140, 255, 0.2); margin-bottom: 14px; padding-bottom: 10px;">
+                <div class="settings-header-icon"
+                  style="background: var(--accent-gradient); color: white; box-shadow: 0 0 15px var(--accent-glow);">
+                  👨‍💻</div>
                 <div>
                   <h3 class="section-title" style="margin: 0; font-size: 16px;">Application & Developer</h3>
                   <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 2px;">Subham Sahoo</p>
                 </div>
               </div>
 
-              <div style="font-size: 12.5px; color: var(--text-secondary); display: flex; justify-content: space-between; align-items: center;">
+              <div
+                style="font-size: 12.5px; color: var(--text-secondary); display: flex; justify-content: space-between; align-items: center;">
                 <span>AuraHabit v1.0.0</span>
                 <span>Crafted with ❤️ by <strong>Subham Sahoo</strong></span>
               </div>
@@ -471,10 +496,12 @@
     <a href="/habits.html" class="mobile-nav-item"><span class="mobile-nav-icon">✨</span><span>Habits</span></a>
     <a href="/calendar.html" class="mobile-nav-item"><span class="mobile-nav-icon">📅</span><span>Calendar</span></a>
     <a href="/analytics.html" class="mobile-nav-item"><span class="mobile-nav-icon">📈</span><span>Analytics</span></a>
-    <a href="/settings.html" class="mobile-nav-item active"><span class="mobile-nav-icon">⚙️</span><span>Settings</span></a>
+    <a href="/settings.html" class="mobile-nav-item active"><span
+        class="mobile-nav-icon">⚙️</span><span>Settings</span></a>
   </nav>
 
   <script src="/js/api.js"></script>
   <script src="/js/settings.js"></script>
 </body>
+
 </html>
