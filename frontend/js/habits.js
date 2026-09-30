@@ -77,11 +77,29 @@ async function loadHabits() {
     if (res && res.success) {
       allHabits = res.habits;
       populateStackingDropdown();
+      populateCategoryFilterDropdown();
     }
     renderHabitsList();
   } catch (error) {
     console.error('Failed to load habits:', error);
     renderHabitsList();
+  }
+}
+
+// Populate Category Filter Dropdown
+function populateCategoryFilterDropdown() {
+  const catSelect = document.getElementById('filter-category');
+  if (!catSelect) return;
+
+  const defaultCategories = ['Health', 'Fitness', 'Study', 'Work', 'Personal', 'Mindfulness', 'Finance', 'Other'];
+  const habitCategories = allHabits.map(h => h.category).filter(Boolean);
+  const categories = Array.from(new Set([...defaultCategories, ...habitCategories]));
+
+  const currentValue = catSelect.value || 'all';
+  catSelect.innerHTML = '<option value="all">All Categories</option>' +
+    categories.map(cat => `<option value="${cat}">${cat}</option>`).join('');
+  if (categories.includes(currentValue) || currentValue === 'all') {
+    catSelect.value = currentValue;
   }
 }
 
@@ -266,8 +284,12 @@ function closeHabitModal() {
 async function handleHabitFormSubmit(e) {
   e.preventDefault();
 
-  const name = document.getElementById('habit-name').value;
-  const description = document.getElementById('habit-description').value;
+  const name = document.getElementById('habit-name').value.trim();
+  if (!name) {
+    showToast('Please enter a habit name.', 'warning');
+    return;
+  }
+  const description = document.getElementById('habit-description').value.trim();
   const icon = document.getElementById('habit-icon').value || '✨';
   const color = document.getElementById('habit-color').value || '#9b8cff';
   const category = document.getElementById('habit-category').value;

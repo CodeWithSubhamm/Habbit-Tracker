@@ -144,8 +144,12 @@ function closeGoalModal() {
 async function handleGoalSubmit(e) {
   e.preventDefault();
 
-  const name = document.getElementById('goal-name').value;
-  const target = Number(document.getElementById('goal-target').value);
+  const name = document.getElementById('goal-name').value.trim();
+  if (!name) {
+    showToast('Please enter a goal title.', 'warning');
+    return;
+  }
+  const target = Number(document.getElementById('goal-target').value) || 1;
   const unit = document.getElementById('goal-unit').value || 'times';
   const period = document.getElementById('goal-period').value || 'monthly';
   const habitId = document.getElementById('goal-habit-select').value || null;

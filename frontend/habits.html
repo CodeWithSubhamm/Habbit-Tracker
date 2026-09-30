@@ -178,7 +178,7 @@
         <button class="modal-close" onclick="closeHabitModal()">&times;</button>
       </div>
 
-      <form id="form-habit">
+      <form id="form-habit" novalidate>
         <!-- Basic Information -->
         <div class="form-group">
           <label class="form-label" for="habit-name">Habit Name *</label>
@@ -232,7 +232,7 @@
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
             <div>
               <label class="form-label" for="habit-target-qty">Target Quantity</label>
-              <input type="number" id="habit-target-qty" class="form-input" value="2" step="0.5" min="0.1">
+              <input type="number" id="habit-target-qty" class="form-input" value="2" step="any" min="0.1">
             </div>
             <div>
               <label class="form-label" for="habit-unit">Unit</label>
@@ -245,7 +245,7 @@
         <div id="duration-fields" style="display: none; background: rgba(255,255,255,0.03); padding: 12px; border-radius: var(--radius-md); margin-bottom: 16px; border: 1px solid var(--glass-border);">
           <div>
             <label class="form-label" for="habit-target-duration">Target Duration (Minutes)</label>
-            <input type="number" id="habit-target-duration" class="form-input" value="15" min="1">
+            <input type="number" id="habit-target-duration" class="form-input" value="15" min="1" step="any">
           </div>
         </div>
 
